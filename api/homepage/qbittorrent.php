@@ -70,14 +70,14 @@ trait QBitTorrentHomepageItem
 			$cookie = $reflection->getProperty("cookies");
 			$cookie->setAccessible(true);
 			$cookie = $cookie->getValue($response->cookies);
-			if ($cookie) {
-				$sidName = null;
-				foreach ($cookie as $name => $item) {
-					if ($name === 'SID' || strpos($name, 'QBT_SID_') === 0) {
-						$sidName = $name;
-						break;
-					}
+			$sidName = null;
+			foreach ((array) $cookie as $name => $item) {
+				if ($name === 'SID' || strpos($name, 'QBT_SID_') === 0) {
+					$sidName = $name;
+					break;
 				}
+			}
+			if ($sidName) {
 				$headers = array(
 					'Cookie' => $sidName . '=' . $cookie[$sidName]->value
 				);
@@ -163,14 +163,15 @@ trait QBitTorrentHomepageItem
 			$cookie = $reflection->getProperty("cookies");
 			$cookie->setAccessible(true);
 			$cookie = $cookie->getValue($response->cookies);
-			if ($cookie) {
-				$sidName = null;
-				foreach ($cookie as $name => $item) {
-					if ($name === 'SID' || strpos($name, 'QBT_SID_') === 0) {
-						$sidName = $name;
-						break;
-					}
+			$cookie = $cookie->getValue($response->cookies);
+			$sidName = null;
+			foreach ((array) $cookie as $name => $item) {
+				if ($name === 'SID' || strpos($name, 'QBT_SID_') === 0) {
+					$sidName = $name;
+					break;
 				}
+			}
+			if ($sidName) {
 				$headers = array(
 					'Cookie' => $sidName . '=' . $cookie[$sidName]->value
 				);
